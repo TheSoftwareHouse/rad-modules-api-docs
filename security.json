@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.48",
+    "version": "0.0.52",
     "description": ""
   },
   "components": {
@@ -1178,23 +1178,17 @@
           }
         ],
         "summary": "Removes a user by id",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": {
-                    "type": "string",
-                    "required": true,
-                    "example": "ee4b1d3e-463e-49a8-880f-5f3a816b492c"
-                  }
-                }
-              }
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "ee4b1d3e-463e-49a8-880f-5f3a816b492c"
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "User removed"
@@ -2243,8 +2237,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Reset success",
+          "201": {
+            "description": "Returns password when generater otherwise empty body",
             "content": {
               "application/json": {
                 "schema": {
