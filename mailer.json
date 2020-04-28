@@ -36,37 +36,38 @@
         "summary": "Send email",
         "description": "Send an email via SMTP to multiple recipients",
         "requestBody": {
-          "require": true,
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "array",
-                "required": true,
                 "items": {
                   "properties": {
                     "sender": {
                       "type": "object",
-                      "required": true,
+                      "required": [
+                        "name",
+                        "email"
+                      ],
                       "properties": {
                         "name": {
                           "type": "string",
-                          "required": true,
                           "example": "example"
                         },
                         "email": {
                           "type": "string",
-                          "required": true,
                           "example": "example@example.com"
                         }
                       }
                     },
                     "recipient": {
                       "type": "object",
-                      "required": true,
+                      "required": [
+                        "to"
+                      ],
                       "properties": {
                         "to": {
                           "type": "array",
-                          "required": true,
                           "items": {
                             "type": "string"
                           },
@@ -76,57 +77,60 @@
                         },
                         "cc": {
                           "type": "array",
-                          "required": false,
                           "items": {
                             "type": "string"
                           },
-                          "example": []
+                          "example": [
+                            "example2@example.com"
+                          ]
                         },
                         "bcc": {
                           "type": "array",
-                          "required": false,
                           "items": {
                             "type": "string"
                           },
-                          "example": []
+                          "example": [
+                            "example3@example.com"
+                          ]
                         }
                       }
                     },
                     "template": {
                       "type": "object",
-                      "required": true,
+                      "required": [
+                        "id",
+                        "parameters"
+                      ],
                       "properties": {
                         "id": {
                           "type": "string",
-                          "required": true,
                           "example": "template-1"
                         },
                         "parameters": {
                           "type": "object",
-                          "required": true,
                           "example": {
-                            "param1": "param1",
-                            "param2": "param2"
+                            "param1": "test1",
+                            "param2": "test2"
                           }
                         }
                       }
                     },
                     "attachments": {
                       "type": "array",
-                      "required": false,
                       "items": {
                         "type": "object",
-                        "required": false,
+                        "required": [
+                          "fileName",
+                          "content"
+                        ],
                         "properties": {
                           "fileName": {
                             "type": "string",
-                            "required": true,
-                            "example": ""
+                            "example": "test-file-name"
                           },
                           "content": {
                             "type": "string",
-                            "required": true,
-                            "example": ""
+                            "example": "test content"
                           }
                         }
                       }
