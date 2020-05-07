@@ -2424,7 +2424,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Returns token with will be used to reset the user password",
+        "summary": "Returns token which will be used to reset the user password",
         "description": "Create a password reset token with will be used to find if the user started action to change password",
         "requestBody": {
           "required": true,
