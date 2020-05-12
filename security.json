@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.53",
+    "version": "0.0.54",
     "description": ""
   },
   "components": {
@@ -1195,6 +1195,17 @@
                     "type": "string",
                     "required": true,
                     "example": "passw0rd"
+                  },
+                  "attributes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "required": false,
+                    "example": [
+                      "ADMIN_PANEL",
+                      "READ_TEST_RESOURCE"
+                    ]
                   }
                 }
               }
