@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "scheduler",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": ""
   },
   "components": {
@@ -45,7 +45,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "204": {
             "description": "Job cancelled"
           },
           "400": {
@@ -105,7 +105,19 @@
         },
         "responses": {
           "201": {
-            "description": "Job scheduled"
+            "description": "Job scheduled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
