@@ -1,0 +1,95 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "pdf",
+    "version": "0.0.1",
+    "description": "Flexible Web API for generating PDF documents."
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pdf",
+      "description": ""
+    }
+  ],
+  "paths": {},
+  "definitions": {
+    "AlreadyExistsError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Error description"
+        }
+      }
+    },
+    "BadRequestError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Bad request"
+        }
+      }
+    },
+    "ForbiddenError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Forbidden"
+        }
+      }
+    },
+    "InternalServerError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Error description"
+        }
+      }
+    },
+    "NoLongerAvailableError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "No longer available"
+        }
+      }
+    },
+    "NotFoundError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Not found"
+        }
+      }
+    },
+    "UnauthorizedError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Token missing or invalid token format"
+        }
+      }
+    }
+  }
+}
