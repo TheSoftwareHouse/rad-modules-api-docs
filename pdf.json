@@ -5,21 +5,6 @@
     "version": "0.0.1",
     "description": "Flexible Web API for generating PDF documents."
   },
-  "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "in": "header",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  },
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
   "tags": [
     {
       "name": "PDF",
@@ -27,6 +12,60 @@
     }
   ],
   "paths": {
+    "/api/download-pdf/{fileId}/{fileName}": {
+      "get": {
+        "tags": [
+          "PDF"
+        ],
+        "summary": "Download PDF file",
+        "description": "Download PDF file",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "in": "path",
+            "name": "fileName",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "example.pdf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A PDF file",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "object",
+                  "format": "binary"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/pdf/create-pdf": {
       "post": {
         "tags": [
@@ -184,7 +223,7 @@
                   "properties": {
                     "url": {
                       "type": "string",
-                      "example": "http://pdf-service:50050/api/pdf/download/123e4567-e89b-12d3-a456-426614174000/example.pdf"
+                      "example": "http://pdf:50050/api/download-pdf/123e4567-e89b-12d3-a456-426614174000/example.pdf"
                     },
                     "expiryAt": {
                       "type": "string",
@@ -276,5 +315,6 @@
         }
       }
     }
-  }
+  },
+  "components": {}
 }
