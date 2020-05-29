@@ -12,7 +12,7 @@
     }
   ],
   "paths": {
-    "/api/download-pdf/{fileId}/{fileName}": {
+    "/api/download-pdf/{fileId}": {
       "get": {
         "tags": [
           "PDF"
@@ -28,15 +28,6 @@
             },
             "required": true,
             "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          {
-            "in": "path",
-            "name": "fileName",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "example": "example.pdf"
           }
         ],
         "responses": {
@@ -57,11 +48,35 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
           "404": {
-            "description": "Not found"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/NotFoundError"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
           }
         }
       }
@@ -85,10 +100,14 @@
                     "required": true,
                     "example": "https://www.example.com"
                   },
-                  "name": {
+                  "type": {
                     "type": "string",
-                    "required": false,
-                    "example": "example.pdf"
+                    "required": true,
+                    "enum": [
+                      "uri",
+                      "html"
+                    ],
+                    "example": "uri"
                   },
                   "pdfOptions": {
                     "type": "object",
@@ -223,7 +242,7 @@
                   "properties": {
                     "url": {
                       "type": "string",
-                      "example": "http://pdf:50050/api/download-pdf/123e4567-e89b-12d3-a456-426614174000/example.pdf"
+                      "example": "http://pdf:50050/api/download-pdf/123e4567-e89b-12d3-a456-426614174000"
                     },
                     "expiryAt": {
                       "type": "string",
