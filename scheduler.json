@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "scheduler",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": ""
   },
   "components": {
@@ -55,6 +55,144 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scheduling/get-jobs": {
+      "get": {
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [],
+        "summary": "Get jobs list (if no query parameters it returns first 25 jobs ordered by name)",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "default": 1,
+            "schema": {
+              "type": "number"
+            },
+            "example": 1
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 25,
+            "schema": {
+              "type": "number"
+            },
+            "example": 25
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object"
+            },
+            "allowReserved": true
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "by": {
+                  "type": "string",
+                  "example": "name"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "asc"
+                }
+              }
+            },
+            "allowReserved": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of jobs and total count of jobs",
+            "example": {
+              "jobs": [
+                {
+                  "id": "00000000-0000-0000-0000-000000000001",
+                  "name": "test",
+                  "service": "security",
+                  "action": "addUser",
+                  "status": null,
+                  "jobOptions": null,
+                  "payload": null,
+                  "createdAt": "2020-07-16T10:00:00.000Z",
+                  "updatedAt": "2020-07-16T10:00:00.000Z"
+                }
+              ],
+              "total": 1
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobs": {
+                      "type": "An array of objects"
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "page": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "number",
+                      "example": 25
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/UnauthorizedError"
                 }
               }
             }
@@ -250,6 +388,24 @@
         "error": {
           "type": "string",
           "example": "Error description"
+        }
+      }
+    },
+    "NotFoundError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Not found"
+        }
+      }
+    },
+    "UnauthorizedError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Token missing or invalid token format"
         }
       }
     }
