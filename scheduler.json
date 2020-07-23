@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "scheduler",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": ""
   },
   "components": {
@@ -187,12 +187,62 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/UnauthorizedError"
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scheduling/get-services": {
+      "get": {
+        "tags": [
+          "Scheduling"
+        ],
+        "security": [],
+        "summary": "Returns all services and actions that can be run by scheduler",
+        "responses": {
+          "200": {
+            "description": "Available services and actions",
+            "example": [
+              {
+                "service": "security",
+                "actions": [
+                  "getPolicies",
+                  "getUsers"
+                ]
+              },
+              {
+                "service": "mailer",
+                "actions": [
+                  "send"
+                ]
+              }
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "service": {
+                        "type": "string"
+                      },
+                      "actions": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
