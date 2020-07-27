@@ -172,7 +172,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "users": {
+                    "attributes": {
                       "type": "An array of objects",
                       "example": [
                         {
