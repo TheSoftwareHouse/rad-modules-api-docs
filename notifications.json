@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "notifications",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": ""
   },
   "components": {
@@ -27,6 +27,138 @@
     }
   ],
   "paths": {
+    "/api/notifications/get-notifications": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "security": [],
+        "summary": "Get notifications list (if no query parameters it returns first 25 notifications ordered by created date)",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "default": 1,
+            "schema": {
+              "type": "number"
+            },
+            "example": 1
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 25,
+            "schema": {
+              "type": "number"
+            },
+            "example": 25
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object"
+            },
+            "allowReserved": true
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "by": {
+                  "type": "string",
+                  "example": "channel"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "asc"
+                }
+              }
+            },
+            "allowReserved": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of notifications and total count of notifications",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifications": null,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "00000000-0000-0000-0000-000000000001"
+                        },
+                        "channel": {
+                          "type": "string",
+                          "example": "default-all"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Hello!"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2020-07-16T10:00:00.000Z"
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "page": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "number",
+                      "example": 25
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/notifications/send": {
       "post": {
         "tags": [
@@ -58,7 +190,22 @@
         },
         "responses": {
           "201": {
-            "description": "Notification created"
+            "description": "Notification/s created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notificationsIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
