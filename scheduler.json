@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "scheduler",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": ""
   },
   "components": {
@@ -376,6 +376,11 @@
                         "required": false
                       }
                     }
+                  },
+                  "startImmediately": {
+                    "type": "boolean",
+                    "default": true,
+                    "required": false
                   }
                 }
               }
@@ -408,6 +413,22 @@
               }
             }
           },
+          "409": {
+            "description": "Already Exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Job with name example-job already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -429,6 +450,15 @@
         "error": {
           "type": "string",
           "example": "Bad request"
+        }
+      }
+    },
+    "AlreadyExistsError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Error description"
         }
       }
     },
