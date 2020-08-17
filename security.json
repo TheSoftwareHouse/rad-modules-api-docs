@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.59",
+    "version": "0.0.60",
     "description": ""
   },
   "components": {
@@ -2044,15 +2044,6 @@
                     "hasAllAttributes": {
                       "type": "boolean",
                       "example": true
-                    },
-                    "ownedAttributes": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "example": [
-                        "attr1"
-                      ]
                     }
                   }
                 }
