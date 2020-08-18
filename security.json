@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.60",
+    "version": "0.0.61",
     "description": ""
   },
   "components": {
@@ -2032,8 +2032,8 @@
         "bearerFormat": "JWT"
       }
     },
-    "/api/users/has-attribute": {
-      "get": {
+    "/api/users/has-attributes": {
+      "post": {
         "tags": [
           "Users"
         ],
@@ -2043,17 +2043,28 @@
           }
         ],
         "summary": "Verifies whether user has attributes.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "attributes",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "example": "attr1"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "attributes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "example": [
+                      "ADMIN_PANEL"
+                    ]
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Returns an object determining whether user has all attributes and a list of owned attributes.",
