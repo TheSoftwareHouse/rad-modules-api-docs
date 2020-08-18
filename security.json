@@ -1933,7 +1933,7 @@
       }
     },
     "/api/users/has-access": {
-      "get": {
+      "post": {
         "tags": [
           "Users"
         ],
@@ -1942,18 +1942,30 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Verifies whether user has access to a specific resource.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "resource",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "example": "resource1"
+        "summary": "Verifies whether user has access to a specific resources.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "required": true,
+                    "example": [
+                      "user-operation/add-user",
+                      "user-operation/get-user-id"
+                    ]
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "User has access",
@@ -1965,6 +1977,15 @@
                     "hasAccess": {
                       "type": "boolean",
                       "example": false
+                    },
+                    "forbidden": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "resource1"
+                      ]
                     }
                   }
                 }
