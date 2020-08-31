@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "scheduler",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": ""
   },
   "components": {
@@ -12,6 +12,20 @@
         "in": "header",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "StringBody": {
+        "type": "string"
+      },
+      "ObjectBody": {
+        "type": "object"
+      },
+      "ArrayBody": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
     }
   },
@@ -200,66 +214,6 @@
         }
       }
     },
-    "/api/scheduling/get-services": {
-      "get": {
-        "tags": [
-          "Scheduling"
-        ],
-        "security": [],
-        "summary": "Returns all services and actions that can be run by scheduler",
-        "responses": {
-          "200": {
-            "description": "Available services and actions",
-            "example": [
-              {
-                "service": "security",
-                "actions": [
-                  "getPolicies",
-                  "getUsers"
-                ]
-              },
-              {
-                "service": "mailer",
-                "actions": [
-                  "send"
-                ]
-              }
-            ],
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "service": {
-                        "type": "string"
-                      },
-                      "actions": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/InternalServerError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/scheduling/schedule-job": {
       "post": {
         "tags": [
@@ -280,19 +234,92 @@
                     "description": "The job name.",
                     "required": true
                   },
-                  "service": {
+                  "type": {
                     "type": "string",
-                    "description": "The service name with scheduler will call.",
-                    "required": true
-                  },
-                  "action": {
-                    "type": "string",
-                    "description": "The endpoint action of service with scheduler will call.",
+                    "enum": [
+                      "http"
+                    ],
+                    "description": "Job type",
                     "required": true
                   },
                   "payload": {
                     "type": "object",
-                    "required": false
+                    "required": true,
+                    "properties": {
+                      "method": {
+                        "type": "string",
+                        "enum": [
+                          "GET",
+                          "HEAD",
+                          "POST",
+                          "PUT",
+                          "DELETE",
+                          "CONNECT",
+                          "OPTIONS",
+                          "TRACE",
+                          "PATCH"
+                        ],
+                        "required": false,
+                        "default": "GET"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Request URL string",
+                        "example": "http://example.com?foo=bar",
+                        "required": true
+                      },
+                      "headers": {
+                        "type": "object",
+                        "example": {
+                          "Content-Type": "application/json"
+                        }
+                      },
+                      "body": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/components/schemas/StringBody"
+                          },
+                          {
+                            "$ref": "#/components/schemas/ObjectBody"
+                          },
+                          {
+                            "$ref": "#/components/schemas/ArrayBody"
+                          }
+                        ],
+                        "example": "test",
+                        "required": false
+                      },
+                      "options": {
+                        "type": "object",
+                        "required": false,
+                        "properties": {
+                          "compress": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Support gzip/deflate content encoding. false to disable",
+                            "required": false
+                          },
+                          "follow": {
+                            "type": "number",
+                            "default": 20,
+                            "description": "Maximum redirect count. 0 to not follow redirect",
+                            "required": false
+                          },
+                          "size": {
+                            "type": "number",
+                            "default": 0,
+                            "description": "Maximum response body size in bytes. 0 to disable",
+                            "required": false
+                          },
+                          "timeout": {
+                            "type": "number",
+                            "default": 0,
+                            "description": "Request/response timeout in ms, it resets on redirect. 0 to disable (OS limit applies)",
+                            "required": false
+                          }
+                        }
+                      }
+                    }
                   },
                   "jobOptions": {
                     "type": "object",
