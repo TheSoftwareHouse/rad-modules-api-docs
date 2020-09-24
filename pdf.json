@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "pdf",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Flexible Web API for generating PDF documents."
   },
   "tags": [
@@ -190,12 +190,12 @@
                       },
                       "width": {
                         "type": "number",
-                        "description": "Paper width.",
+                        "description": "Paper width. Set 0 for auto width.",
                         "required": false
                       },
                       "height": {
                         "type": "number",
-                        "description": "Paper height.",
+                        "description": "Paper height. Set 0 for auto height.",
                         "required": false
                       },
                       "margin": {
