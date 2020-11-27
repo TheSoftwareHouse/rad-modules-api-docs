@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.64",
+    "version": "0.0.65",
     "description": ""
   },
   "components": {
