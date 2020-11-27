@@ -1977,15 +1977,6 @@
                     "hasAccess": {
                       "type": "boolean",
                       "example": false
-                    },
-                    "forbidden": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "example": [
-                        "resource1"
-                      ]
                     }
                   }
                 }
