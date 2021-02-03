@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "gateway",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "gateway service"
   },
   "components": {
