@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "pdf",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Flexible Web API for generating PDF documents."
   },
   "tags": [
