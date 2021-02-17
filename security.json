@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "security",
-    "version": "0.0.74",
+    "version": "0.0.75",
     "description": ""
   },
   "components": {
@@ -215,6 +215,298 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/definitions/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/keycloak/add-group": {
+      "post": {
+        "tags": [
+          "Keycloak"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Adds a new keycloak group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": true,
+                    "example": "EXAMPLE_GROUP"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Group created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Group already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/AlreadyExistsError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/keycloak/add-user-to-group": {
+      "post": {
+        "tags": [
+          "Keycloak"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Adds user to keycloak group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "required": true,
+                    "example": "user@example.com"
+                  },
+                  "group": {
+                    "type": "string",
+                    "required": true,
+                    "example": "EXAMPLE_GROUP"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User added"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User and/or group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/keycloak/remove-group": {
+      "delete": {
+        "tags": [
+          "Keycloak"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Removes keycloak group by name",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "EXAMPLE_GROUP"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Group removed"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/keycloak/remove-user-from-group": {
+      "delete": {
+        "tags": [
+          "Keycloak"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Removes keycloak group by name",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "user@example.com"
+          },
+          {
+            "in": "query",
+            "name": "group",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "EXAMPLE_GROUP"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User was removed from the group"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User and/or group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/NotFoundError"
                 }
               }
             }
